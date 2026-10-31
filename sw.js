@@ -1,7 +1,7 @@
 /* Service worker web HKO: membuat web bisa dipasang sebagai aplikasi
    dan tetap terbuka saat sinyal lemah/offline.
    File web selalu diambil terbaru; simpanan hanya dipakai saat offline. */
-var VERSI = 'hko-v3';
+var VERSI = 'hko-v4';
 var SHELL = [
   './',
   'index.html',
@@ -11,6 +11,7 @@ var SHELL = [
   'assets/data-cadangan.js',
   'assets/app.js',
   'assets/logo.png',
+  'assets/logo-bulat.png',
   'assets/icons/icon-192.png',
   'assets/icons/favicon-48.png'
 ];
