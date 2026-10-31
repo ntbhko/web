@@ -12,7 +12,7 @@
    (assets/data-cadangan.js).
    ================================================================ */
 window.HKO_CONFIG = {
-  SHEET_ID: '',
+  SHEET_ID: '1RBc_k8vrN-qCm5PeHmTNh4gr9WloNpvC',
 
   // Nama tab di spreadsheet (jangan diubah kecuali nama tab juga diubah)
   TABS: ['pengaturan', 'kategori', 'layanan', 'isi'],
