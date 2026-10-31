@@ -1,7 +1,7 @@
 /* Service worker web HKO: membuat web bisa dipasang sebagai aplikasi
    dan tetap terbuka saat sinyal lemah/offline.
-   Naikkan VERSI setiap kali file kode (html/js/css) diubah. */
-var VERSI = 'hko-v2';
+   File web selalu diambil terbaru; simpanan hanya dipakai saat offline. */
+var VERSI = 'hko-v3';
 var SHELL = [
   './',
   'index.html',
@@ -17,7 +17,7 @@ var SHELL = [
 var CDN = /^(https:\/\/(cdn\.tailwindcss\.com|unpkg\.com|fonts\.googleapis\.com|fonts\.gstatic\.com))/;
 
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(VERSI).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(VERSI).then(function (c) { return c.addAll(SHELL.map(function (u) { return new Request(u, { cache: 'reload' }); })); }).then(function () { return self.skipWaiting(); }));
 });
 
 self.addEventListener('activate', function (e) {
@@ -33,7 +33,7 @@ self.addEventListener('fetch', function (e) {
 
   // Halaman: ambil terbaru dari internet, bila gagal pakai simpanan
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(function (res) {
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(function (res) {
       var copy = res.clone(); caches.open(VERSI).then(function (c) { c.put('index.html', copy); });
       return res;
     }).catch(function () { return caches.match('index.html'); }));
@@ -51,14 +51,12 @@ self.addEventListener('fetch', function (e) {
     return;
   }
 
-  // File web sendiri: tampilkan simpanan, perbarui di belakang layar
+  // File web sendiri: selalu ambil versi terbaru, simpanan hanya untuk offline
   if (url.indexOf(self.location.origin) === 0) {
-    e.respondWith(caches.open(VERSI).then(function (c) {
-      return c.match(req).then(function (hit) {
-        var net = fetch(req).then(function (res) { if (res.ok) c.put(req, res.clone()); return res; }).catch(function () { return hit; });
-        return hit || net;
-      });
-    }));
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(function (res) {
+      if (res.ok) { var copy = res.clone(); caches.open(VERSI).then(function (c) { c.put(req, copy); }); }
+      return res;
+    }).catch(function () { return caches.match(req, { ignoreSearch: true }); }));
   }
   // Google Sheet & statistik: selalu langsung ke internet (tidak disimpan)
 });
