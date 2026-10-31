@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ENQX1QHVD9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ENQX1QHVD9');
+</script>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HKO Kanwil BPN NTB</title>
+<meta name="description" content="Portal layanan Hukum, Kepegawaian dan Organisasi (HKO) Kanwil BPN Provinsi Nusa Tenggara Barat." />
+<meta property="og:title" content="HKO Kanwil BPN NTB" />
+<meta property="og:description" content="Portal layanan Hukum, Kepegawaian dan Organisasi (HKO) Kanwil BPN Provinsi Nusa Tenggara Barat." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#10263F" />
+<link id="favicon" rel="icon" type="image/png" href="https://mpp.jambikota.go.id/storage/instansi/ATR_BPN.png">
+
+<!-- Versi pustaka dikunci agar tampilan tidak berubah sendiri -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  if (window.tailwind) tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{navy:'#10263F',blue:'#1D4E89',gold:'#E5B94D'}}}};
+</script>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <a href="#/" class="flex items-center gap-3 min-w-0 text-left" aria-label="Ke Beranda" id="brandLink">
+      <span class="w-10 h-10 flex items-center justify-center shrink-0"><img id="siteLogo" src="assets/logo.png" alt="Logo ATR/BPN" class="w-10 h-10 object-contain"></span>
+      <span class="min-w-0"><span id="siteTitle" class="font-extrabold tracking-tight text-navy block leading-5">HKO Kanwil NTB</span><span id="siteSubtitle" class="text-[11px] text-slate-500 hidden sm:block">Hukum, Kepegawaian & Organisasi</span></span>
+    </a>
+    <nav id="desktopNav" class="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600" aria-label="Menu utama"></nav>
+    <button id="mobileNavToggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
+      class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-navy shadow-sm">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+  </div>
+  <div id="mobileNavPanel" class="lg:hidden hidden border-t border-slate-200 bg-white">
+    <div id="mobileNavList" class="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-1"></div>
+  </div>
+</header>
+
+<main>
+<section id="homeSection">
+  <div class="bg-navy text-white relative overflow-hidden">
+    <div class="absolute inset-0 hero-grid opacity-70"></div>
+    <div class="absolute -right-32 -top-32 w-96 h-96 bg-blue/40 rounded-full blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20 relative z-10">
+      <div class="grid lg:grid-cols-[1.2fr_.8fr] gap-10 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 mb-6"><span class="w-2 h-2 rounded-full bg-gold"></span><span id="heroLabel">Portal Layanan Internal Kanwil BPN Provinsi NTB</span></div>
+          <h1 id="heroTitle" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] max-w-3xl">Satu pintu untuk layanan <span class="text-gold">HKO</span> yang lebih mudah dicari.</h1>
+          <p id="heroDesc" class="mt-5 text-slate-300 text-base sm:text-lg max-w-2xl leading-7"></p>
+          <div class="mt-8 max-w-2xl relative" id="searchWrap">
+            <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-4 pointer-events-none"></i>
+            <input id="searchInput" type="text" readonly aria-label="Buka pencarian layanan"
+              placeholder="Cari: kenaikan pangkat, JABFUNG, SIMPEG, pensiun..."
+              class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white text-slate-800 placeholder-slate-400 outline-none ring-4 ring-white/10 focus:ring-gold/30 shadow-xl cursor-text" />
+          </div>
+          <div id="announcement" class="hidden mt-6"></div>
+        </div>
+        <div>
+          <div class="bg-white/10 border border-white/15 rounded-[28px] p-3 sm:p-5 backdrop-blur soft-ring">
+            <div class="bg-white text-slate-800 rounded-[22px] p-5 sm:p-6 shadow-2xl">
+              <div class="flex items-center justify-between mb-5"><div><p class="text-xs font-bold text-blue uppercase tracking-wider">Akses cepat</p><h2 class="font-extrabold text-xl text-navy mt-1">Layanan populer</h2></div><span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-navy"><i data-lucide="sparkles" class="w-5 h-5"></i></span></div>
+              <div class="space-y-2" id="popularServices"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicesSection" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[65vh]">
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-7">
+    <div>
+      <a href="#/" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-navy mb-3"><i data-lucide="arrow-left" class="w-4 h-4"></i>Kembali ke beranda</a>
+      <p class="text-xs font-bold uppercase tracking-[.18em] text-blue">Kategori layanan</p>
+      <h2 id="categoryTitle" class="text-3xl font-extrabold text-navy mt-2"></h2>
+      <p id="categoryDesc" class="text-slate-500 mt-2 max-w-2xl"></p>
+    </div>
+    <div class="relative w-full lg:w-80"><i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none"></i><input id="categorySearch" placeholder="Cari di kategori ini..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-slate-200 outline-none focus:border-blue focus:ring-4 focus:ring-blue/10 text-sm" /></div>
+  </div>
+  <div id="servicesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  <div id="noResults" class="hidden bg-white border border-dashed border-slate-300 rounded-2xl p-10 text-center"><i data-lucide="search-x" class="w-9 h-9 text-slate-400 mx-auto"></i><h3 class="font-bold text-slate-700 mt-3">Layanan tidak ditemukan</h3><p class="text-sm text-slate-500 mt-1">Coba kata kunci lain atau pilih kategori berbeda.</p></div>
+</section>
+</main>
+
+<!-- Halaman detail layanan -->
+<aside id="serviceDrawer" class="fixed z-40 bg-slate-50 flex flex-col" aria-hidden="true">
+  <div class="border-b border-slate-200 bg-white">
+    <div class="drawer-inner flex items-start justify-between gap-4 py-5">
+      <div class="min-w-0">
+        <div id="drawerCategory" class="text-[11px] font-bold uppercase tracking-wider text-blue"></div>
+        <h2 id="drawerTitle" class="text-xl sm:text-2xl font-bold text-slate-900 mt-1"></h2>
+        <p id="drawerSummary" class="text-sm text-slate-500 mt-2 leading-6"></p>
+      </div>
+      <div class="flex gap-2 shrink-0">
+        <button id="drawerShare" type="button" class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-slate-50 text-slate-600" aria-label="Salin link halaman ini" title="Salin link halaman ini">
+          <i data-lucide="link" class="w-4 h-4"></i>
+        </button>
+        <button id="drawerClose" type="button" class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-slate-50" aria-label="Tutup">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="drawerBody" class="flex-1"></div>
+</aside>
+
+<footer class="border-t border-slate-200 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between gap-5">
+    <div>
+      <div id="footerUnit" class="font-extrabold text-navy">Subbagian Hukum, Kepegawaian & Organisasi</div>
+      <p id="footerOffice" class="text-sm text-slate-500 mt-1">Kantor Wilayah Badan Pertanahan Nasional Provinsi Nusa Tenggara Barat</p>
+      <p class="text-xs text-slate-400 mt-3"><span id="footerSlogan">Melayani, Profesional, Terpercaya</span> • <span id="currentYear"></span></p>
+      <p id="dataStatus" class="text-[11px] text-slate-300 mt-1"></p>
+    </div>
+    <div class="flex flex-wrap gap-2 items-start">
+      <a id="waLink" href="https://wa.me/6285233917755" target="_blank" rel="noopener" data-track="whatsapp" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-semibold"><i data-lucide="message-circle" class="w-4 h-4"></i>WhatsApp Admin</a>
+      <a id="emailLink" href="https://mail.google.com/mail/?view=cm&fs=1&to=kepegawaian.bpn.ntb@gmail.com" target="_blank" rel="noopener noreferrer" data-track="email" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-semibold"><i data-lucide="mail" class="w-4 h-4"></i>Email Kepegawaian</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Dialog pencarian -->
+<div id="searchDialog" class="search-dialog" aria-hidden="true">
+  <div id="searchDialogBackdrop" class="search-dialog-backdrop"></div>
+  <section class="search-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="searchDialogTitle">
+    <div class="search-dialog-head">
+      <div class="min-w-0">
+        <div class="text-[11px] font-extrabold uppercase tracking-[.18em] text-blue">Pencarian cepat</div>
+        <h2 id="searchDialogTitle" class="text-xl sm:text-2xl font-extrabold text-navy mt-1">Cari layanan HKO</h2>
+      </div>
+      <button id="searchDialogClose" type="button" class="search-close" aria-label="Tutup pencarian"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="search-dialog-input-wrap">
+      <i data-lucide="search" class="w-5 h-5 text-slate-400 shrink-0"></i>
+      <input id="searchDialogInput" type="text" autocomplete="off" placeholder="Ketik nama layanan atau dokumen, misalnya: SK CPNS..."
+        aria-label="Ketik nama layanan" aria-controls="searchDialogResults" aria-autocomplete="list" class="search-dialog-input" />
+      <span class="hidden sm:inline-flex text-[11px] text-slate-400 border border-slate-200 rounded-lg px-2 py-1">ESC</span>
+    </div>
+    <div class="flex items-center justify-between gap-3 px-6 mt-3 mb-2">
+      <p id="searchDialogHint" class="text-xs text-slate-500">Mulai mengetik untuk mencari layanan atau kategori.</p>
+      <p class="hidden sm:block text-[11px] text-slate-400">↑ ↓ pilih · Enter buka</p>
+    </div>
+    <div id="searchDialogResults" class="search-results" role="listbox" aria-live="polite"></div>
+  </section>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/config.js"></script>
+<script src="assets/data-cadangan.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
