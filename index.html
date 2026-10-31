@@ -17,20 +17,49 @@
 <meta property="og:title" content="HKO Kanwil BPN NTB" />
 <meta property="og:description" content="Portal layanan Hukum, Kepegawaian dan Organisasi (HKO) Kanwil BPN Provinsi Nusa Tenggara Barat." />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="assets/icons/icon-512.png" />
 <meta name="theme-color" content="#10263F" />
-<link id="favicon" rel="icon" type="image/png" href="https://mpp.jambikota.go.id/storage/instansi/ATR_BPN.png">
 
-<!-- Versi pustaka dikunci agar tampilan tidak berubah sendiri -->
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<!-- Aplikasi (PWA) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link id="favicon" rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HKO NTB">
+<script>
+  // Tangkap tawaran "pasang aplikasi" sedini mungkin
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__hkoInstall = e; });
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-  if (window.tailwind) tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{navy:'#10263F',blue:'#1D4E89',gold:'#E5B94D'}}}};
-</script>
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 splashing">
+
+<!-- Splash screen -->
+<div id="splash" class="splash" role="status" aria-label="Memuat HKO Kanwil NTB">
+  <div class="splash-bg"></div>
+  <div class="splash-orb splash-orb-a"></div>
+  <div class="splash-orb splash-orb-b"></div>
+  <div class="splash-center">
+    <div class="splash-emblem">
+      <span class="splash-wave"></span><span class="splash-wave d2"></span>
+      <svg class="splash-ring" viewBox="0 0 220 220" aria-hidden="true">
+        <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7D774"/><stop offset="1" stop-color="#E5B94D" stop-opacity="0"/></linearGradient></defs>
+        <circle cx="110" cy="110" r="104" class="splash-ring-track"/>
+        <circle cx="110" cy="110" r="104" class="splash-ring-arc" stroke="url(#sg)"/>
+      </svg>
+      <span class="splash-disc"><img src="assets/logo.png" alt="" class="splash-logo"></span>
+    </div>
+    <div class="splash-title"><span class="w"><span><b>HKO</b></span></span> <span class="w"><span>Kanwil</span></span> <span class="w"><span>NTB</span></span></div>
+    <div class="splash-sub">Hukum, Kepegawaian &amp; Organisasi</div>
+    <div class="splash-bar"><i></i></div>
+  </div>
+  <div class="splash-foot">Kantor Wilayah BPN Provinsi Nusa Tenggara Barat</div>
+</div>
 
 <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -39,10 +68,15 @@
       <span class="min-w-0"><span id="siteTitle" class="font-extrabold tracking-tight text-navy block leading-5">HKO Kanwil NTB</span><span id="siteSubtitle" class="text-[11px] text-slate-500 hidden sm:block">Hukum, Kepegawaian & Organisasi</span></span>
     </a>
     <nav id="desktopNav" class="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-600" aria-label="Menu utama"></nav>
+    <div class="flex items-center gap-2 shrink-0">
+    <button id="installBtn" type="button" class="install-btn hidden" aria-label="Pasang aplikasi HKO">
+      <i data-lucide="download" class="w-4 h-4"></i><span>Pasang<span class="hidden sm:inline"> Aplikasi</span></span>
+    </button>
     <button id="mobileNavToggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false"
       class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 bg-white text-navy shadow-sm">
       <i data-lucide="menu" class="w-5 h-5"></i>
     </button>
+    </div>
   </div>
   <div id="mobileNavPanel" class="lg:hidden hidden border-t border-slate-200 bg-white">
     <div id="mobileNavList" class="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-1"></div>
@@ -158,8 +192,43 @@
   </section>
 </div>
 
+<!-- Ajakan pasang aplikasi (muncul sekali-sekali di HP) -->
+<div id="installSheet" class="install-sheet" aria-hidden="true">
+  <div class="install-sheet-card">
+    <img src="assets/icons/icon-192.png" alt="" class="w-12 h-12 rounded-xl shadow-sm shrink-0">
+    <div class="min-w-0 flex-1">
+      <div class="font-extrabold text-navy text-sm">Pasang aplikasi HKO NTB</div>
+      <div class="text-xs text-slate-500 mt-0.5">Buka layanan HKO langsung dari layar utama, tanpa mengetik alamat.</div>
+    </div>
+    <button id="installSheetGo" type="button" class="install-btn shrink-0">Pasang</button>
+    <button id="installSheetClose" type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 flex items-center justify-center shrink-0" aria-label="Tutup"><i data-lucide="x" class="w-4 h-4"></i></button>
+  </div>
+</div>
+
+<!-- Petunjuk pasang di iPhone/iPad -->
+<div id="iosDialog" class="search-dialog" aria-hidden="true">
+  <div class="search-dialog-backdrop" data-close-ios></div>
+  <section class="search-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="iosTitle" style="max-width:460px">
+    <div class="search-dialog-head">
+      <div><div class="text-[11px] font-extrabold uppercase tracking-[.18em] text-blue">iPhone / iPad</div><h2 id="iosTitle" class="text-xl font-extrabold text-navy mt-1">Pasang aplikasi HKO</h2></div>
+      <button type="button" class="search-close" data-close-ios aria-label="Tutup"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <ol class="px-6 pb-6 space-y-3 text-sm text-slate-600">
+      <li class="flex gap-3"><span class="ios-step">1</span><span>Buka web ini di <b>Safari</b>.</span></li>
+      <li class="flex gap-3"><span class="ios-step">2</span><span>Ketuk tombol <b>Bagikan</b> <i data-lucide="share" class="inline w-4 h-4 align-[-3px] text-blue"></i> di bagian bawah layar.</span></li>
+      <li class="flex gap-3"><span class="ios-step">3</span><span>Pilih <b>Tambah ke Layar Utama</b> <i data-lucide="square-plus" class="inline w-4 h-4 align-[-3px] text-blue"></i>, lalu ketuk <b>Tambah</b>.</span></li>
+    </ol>
+  </section>
+</div>
+
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+<!-- Versi pustaka dikunci agar tampilan tidak berubah sendiri -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+  if (window.tailwind) tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{navy:'#10263F',blue:'#1D4E89',gold:'#E5B94D'}}}};
+</script>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <script src="assets/config.js"></script>
 <script src="assets/data-cadangan.js"></script>
 <script src="assets/app.js"></script>

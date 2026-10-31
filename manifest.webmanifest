@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "HKO Kanwil BPN NTB",
+  "short_name": "HKO NTB",
+  "description": "Portal layanan Hukum, Kepegawaian dan Organisasi (HKO) Kanwil BPN Provinsi Nusa Tenggara Barat.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#10263F",
+  "theme_color": "#10263F",
+  "categories": ["productivity", "government", "business"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Kenaikan Pangkat", "url": "./#/layanan/kenaikan-pangkat", "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Jabatan Fungsional", "url": "./#/layanan/jabfung", "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Pensiun", "url": "./#/layanan/pensiun", "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
