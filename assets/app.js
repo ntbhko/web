@@ -192,7 +192,8 @@
           }).join('') + '</div></div>';
       }).join('');
     $('mobileNavList').innerHTML = '<a href="#/" class="mobile-nav-link">' + icon('home', 'w-4 h-4 text-slate-400') + 'Beranda</a>' +
-      M.cats.map(function (c) { return '<a href="#/kategori/' + esc(c.id) + '" class="mobile-nav-link">' + icon(c.icon, 'w-4 h-4 text-slate-400') + esc(c.name) + '</a>'; }).join('');
+      M.cats.map(function (c) { return '<a href="#/kategori/' + esc(c.id) + '" class="mobile-nav-link">' + icon(c.icon, 'w-4 h-4 text-slate-400') + esc(c.name) + '</a>'; }).join('') +
+      '<button type="button" id="mobileInstall" class="mobile-nav-link ' + (installMode() ? '' : 'hidden') + '" style="color:#9a6b00">' + icon('download', 'w-4 h-4') + 'Pasang Aplikasi HKO</button>';
   }
 
   /* ---------------- Tampilan: beranda & kategori ---------------- */
@@ -457,6 +458,86 @@
     test.src = CFG.LOGO_LOKAL;
   }
 
+  /* ---------------- Splash screen ---------------- */
+  var splashStart = Date.now(), splashDone = false;
+  var SPLASH_MIN = 1900, SPLASH_MAX = 4000;
+  function hideSplash() {
+    if (splashDone) return; splashDone = true;
+    var sp = $('splash'); if (!sp) return;
+    sp.classList.add('ready');
+    var wait = Math.max(0, SPLASH_MIN - (Date.now() - splashStart));
+    setTimeout(function () {
+      sp.classList.add('hide');
+      document.body.classList.remove('splashing');
+      setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); maybeShowInstallSheet(); }, 900);
+    }, wait);
+  }
+  setTimeout(hideSplash, SPLASH_MAX); // jaga-jaga bila ada yang macet
+
+  /* ---------------- Pasang aplikasi (PWA) ---------------- */
+  var SHEET_KEY = 'hko_install_dismissed';
+  function isStandalone() {
+    return (window.matchMedia && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: window-controls-overlay)').matches || matchMedia('(display-mode: minimal-ui)').matches)) || navigator.standalone === true;
+  }
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+  function installMode() {
+    if (isStandalone()) return null;
+    if (window.__hkoInstall) return 'prompt';
+    if (isIOS()) return 'ios';
+    return null;
+  }
+  function refreshInstallUI() {
+    var mode = installMode();
+    $('installBtn').classList.toggle('hidden', !mode);
+    var m = $('mobileInstall'); if (m) m.classList.toggle('hidden', !mode);
+    if (!mode) $('installSheet').classList.remove('show');
+  }
+  function doInstall(from) {
+    var mode = installMode();
+    $('installSheet').classList.remove('show');
+    track('install_click', { from: from, mode: mode || 'none' });
+    if (mode === 'prompt') {
+      var ev = window.__hkoInstall;
+      ev.prompt();
+      ev.userChoice.then(function (r) {
+        track('install_choice', { outcome: r && r.outcome });
+        if (r && r.outcome === 'accepted') { window.__hkoInstall = null; refreshInstallUI(); }
+      });
+    } else if (mode === 'ios') {
+      var d = $('iosDialog'); d.classList.add('open'); d.setAttribute('aria-hidden', 'false'); drawIcons();
+    }
+  }
+  function maybeShowInstallSheet() {
+    if (!installMode() || window.innerWidth >= 1024) return;
+    var t = 0; try { t = +localStorage.getItem(SHEET_KEY) || 0; } catch (e) { }
+    if (Date.now() - t < 14 * 864e5) return; // jangan tampil lagi selama 14 hari setelah ditutup
+    setTimeout(function () { if (installMode()) $('installSheet').classList.add('show'); }, 2500);
+  }
+  function setupInstall() {
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); window.__hkoInstall = e; refreshInstallUI(); if (splashDone) maybeShowInstallSheet(); });
+    window.addEventListener('appinstalled', function () {
+      window.__hkoInstall = null; refreshInstallUI(); toast('Aplikasi HKO berhasil dipasang');
+      track('app_installed', {});
+    });
+    if (window.matchMedia) { try { matchMedia('(display-mode: standalone)').addEventListener('change', refreshInstallUI); } catch (e) { } }
+    $('installBtn').addEventListener('click', function () { doInstall('header'); });
+    $('installSheetGo').addEventListener('click', function () { doInstall('sheet'); });
+    $('installSheetClose').addEventListener('click', function () {
+      $('installSheet').classList.remove('show');
+      try { localStorage.setItem(SHEET_KEY, String(Date.now())); } catch (e) { }
+    });
+    document.querySelectorAll('[data-close-ios]').forEach(function (b) {
+      b.addEventListener('click', function () { var d = $('iosDialog'); d.classList.remove('open'); d.setAttribute('aria-hidden', 'true'); });
+    });
+    $('mobileNavList').addEventListener('click', function (e) { if (e.target.closest('#mobileInstall')) { closeMobileNav(); doInstall('menu'); } });
+    refreshInstallUI();
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('[HKO] SW', e); }); });
+    }
+  }
+
   /* ---------------- Mulai ---------------- */
   var appliedJSON = '';
   function apply(raw, source) {
@@ -478,14 +559,19 @@
     var cache = CFG.SHEET_ID ? readCache() : null;
     if (cache) apply(cache.raw, 'Data tersimpan ' + new Date(cache.t).toLocaleString('id-ID'));
     else apply(window.HKO_CADANGAN || {}, CFG.SHEET_ID ? 'Memuat data terbaru…' : 'Data cadangan');
+    setupInstall();
+    // Splash ditutup setelah data terbaru siap (atau segera bila sudah ada simpanan)
+    if (!CFG.SHEET_ID || cache) hideSplash();
     if (!CFG.SHEET_ID) return;
     loadFromSheet().then(function (raw) {
       writeCache(raw);
       apply(raw, 'Data terbaru dari spreadsheet');
       var st = $('dataStatus'); if (st) st.textContent = 'Data terbaru dari spreadsheet';
+      hideSplash();
     }).catch(function (err) {
       console.warn('[HKO] Spreadsheet tidak bisa dimuat, memakai data cadangan:', err && err.message);
       var st = $('dataStatus'); if (st) st.textContent = cache ? 'Data tersimpan (spreadsheet tidak terjangkau)' : 'Data cadangan (spreadsheet tidak terjangkau)';
+      hideSplash();
     });
   }
 
